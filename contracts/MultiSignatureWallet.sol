@@ -1,4 +1,4 @@
-pragma solidity 0.8.5;
+pragma solidity ^0.5.16;
 
 contract MultiSigWallet {
     
@@ -82,7 +82,7 @@ contract MultiSigWallet {
         if (isConfirmed(transactionId)) {
             Transaction storage t = transactions[transactionId];
             t.executed = true;
-            (bool success, bytes memory rdata) = t.destination.call{value: t.value}(t.data);
+            (bool success,) = t.destination.call.value(t.value)(t.data);
             if (success) 
                 emit Execution(transactionId);
             else {
